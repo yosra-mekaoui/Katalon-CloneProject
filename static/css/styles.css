@@ -1,0 +1,990 @@
+/* Variables de couleur */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --nav-bg: #f0f4f8;
+    --nav-text: #1a3d5d;
+    --nav-btn: #333333;
+    --sidebar-bg: #e3eaf4;
+    --sidebar-hover: #cdd8e6;
+    --border-color: #a0b3c7;
+    --dropdown-bg: #ffffff;
+    --dropdown-hover: #d6e4f0;
+}
+
+/* Dark Mode - Orange */
+:root[data-theme="dark"][data-color="orange"] {
+    --bg-color: #121a26;
+    --text-color: #ffffff;
+    --nav-bg: #1e2b3a;
+    --nav-text: #ff6b00;
+    --nav-btn: #ffa132;
+    --sidebar-bg: #1e2b3a;
+    --sidebar-hover: #29405e;
+    --border-color: #3a4a62;
+    --dropdown-bg: #1e2b3a;
+    --dropdown-hover: #2a4b73;
+}
+
+/* Light Mode - Blue */
+:root[data-theme="light"][data-color="blue"] {
+    --nav-text: #1de4cf;
+    --nav-btn: #1de4cf;
+}
+
+/* Dark Mode - Blue */
+:root[data-theme="dark"][data-color="blue"] {
+    --bg-color: #121a26;
+    --text-color: #ffffff;
+    --nav-bg: #1e2b3a;
+    --nav-text: #1de4cf;
+    --nav-btn: #1de4cf;
+    --sidebar-bg: #1e2b3a;
+    --sidebar-hover: #29405e;
+    --border-color: #3a4a62;
+    --dropdown-bg: #1e2b3a;
+    --dropdown-hover: #2a4b73;
+}
+
+/* Application des variables */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.top-nav {
+    background-color: var(--nav-bg);
+    color: var(--nav-text);
+}
+
+.toolbar button {
+    color: var(--nav-btn);
+}
+
+.sidebar {
+    background-color: var(--sidebar-bg);
+    border-color: var(--border-color);
+}
+
+.folder-content:hover,
+.file:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.dropdown-menu {
+    background-color: var(--dropdown-bg);
+    border-color: var(--border-color);
+}
+
+.dropdown-menu li:hover {
+    background-color: var(--dropdown-hover);
+}
+
+/* Theme menu styles */
+.submenu {
+    background-color: var(--dropdown-bg);
+    border: 1px solid var(--border-color);
+}
+
+.theme-option {
+    color: var(--text-color);
+}
+
+.theme-option:hover {
+    background-color: var(--dropdown-hover);
+}
+
+.theme-option i {
+    color: var(--nav-text);
+}
+
+/* Reset et styles de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* Navigation principale */
+.top-nav {
+    background-color: var(--nav-bg);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--nav-text);
+}
+
+.menu-bar {
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.main-menu > li {
+    padding: 8px 15px;
+    cursor: pointer;
+    position: relative;
+}
+
+.main-menu > li:hover {
+    background-color: var(--sidebar-hover);
+}
+
+/* Style du menu déroulant */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--dropdown-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    list-style: none;
+    padding: 5px 0;
+    margin: 0;
+    min-width: 180px;
+    z-index: 1000;
+}
+
+.dropdown-menu li {
+    padding: 8px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color);
+}
+
+.dropdown-menu li:hover {
+    background-color: var(--dropdown-hover);
+}
+
+.dropdown-menu i {
+    width: 16px;
+}
+.resizer {
+    width: 5px;
+    background: #ccc;
+    cursor: ew-resize; /* Curseur de redimensionnement */
+    position: relative;
+}
+
+.resizer:hover {
+    background: #999;
+}
+/* Style pour le menu File actif */
+#fileMenu.active .dropdown-menu {
+    display: block;
+}
+
+/* Styles pour le sidebar et l'arborescence */
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 10px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.tree-view {
+    font-size: 14px;
+}
+
+.root-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.folder {
+    margin: 4px 0;
+    user-select: none;
+}
+
+.folder-content {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.folder-content:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.folder-arrow {
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+    color: #666;
+    font-size: 12px;
+    margin-right: 4px;
+}
+
+.folder-arrow.rotated {
+    transform: rotate(90deg);
+}
+
+.folder i:not(.folder-arrow) {
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+    color: #666;
+}
+
+.folder span, .file span {
+    margin-left: 6px;
+    color: var(--text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.subfolder-content {
+    position: relative;
+    margin-left: 16px;
+    padding-left: 12px;
+    border-left: 1px solid #e0e0e0;
+}
+
+.subfolder-content.hidden {
+    display: none;
+}
+
+.file {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px 4px 28px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.file:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.file i {
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+    color: #666;
+}
+
+/* Assurer que les dossiers restent visibles */
+.folder, .file {
+    position: relative;
+    z-index: 1;
+}
+
+.folder.active > .folder-content,
+.file.active {
+    background-color: var(--sidebar-hover);
+    font-weight: 500;
+}
+
+/* Style de l'arborescence du projet */
+.tree-view {
+    padding: 10px;
+}
+
+.folder-item, .file-item {
+    list-style: none;
+    margin: 2px 0;
+}
+
+.folder-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.folder-header:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.folder-header i {
+    width: 16px;
+}
+
+.folder-content {
+    margin-left: 24px;
+    padding-left: 0;
+}
+
+.folder-content.hidden {
+    display: none;
+}
+
+.fa-chevron-right {
+    transition: transform 0.2s;
+}
+
+.fa-chevron-right.rotated {
+    transform: rotate(90deg);
+}
+
+.file-item {
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.file-item:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.file-item.view-only {
+    opacity: 0.7;
+    cursor: default;
+}
+
+.sidebar {
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 10px 0;
+    height: 100%;
+    overflow-y: auto;
+}
+
+#projectTree {
+    font-size: 14px;
+    user-select: none;
+}
+
+#projectTree ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+#projectTree li {
+    margin: 2px 0;
+}
+
+.folder-content {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.folder-content:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.folder-arrow {
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+    color: #666;
+    font-size: 12px;
+    margin-right: 4px;
+}
+
+.folder-arrow.rotated {
+    transform: rotate(90deg);
+}
+
+.folder i:not(.folder-arrow), .file i {
+    width: 20px;
+    text-align: center;
+    color: #666;
+}
+
+.folder span, .file span {
+    margin-left: 6px;
+    color: var(--text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.subfolder-content {
+    position: relative;
+    margin-left: 16px;
+    padding-left: 12px;
+    border-left: 1px solid #e0e0e0;
+}
+
+.subfolder-content.hidden {
+    display: none;
+}
+
+.file {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px 4px 28px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.file:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Icônes spécifiques avec leurs couleurs */
+.fa-python { color: #3776AB; }
+.fa-file-code { color: #F16529; }
+.fa-globe { color: #4CAF50; }
+.fa-folder { color: #FFA000; }
+.fa-cog { color: #607D8B; }
+.fa-cube { color: #2196F3; }
+.fa-layer-group { color: #9C27B0; }
+.fa-chart-bar { color: #E91E63; }
+.fa-key { color: #795548; }
+
+/* Styles pour les dossiers principaux */
+#projectTree > ul > li > .folder-content {
+    font-weight: 500;
+    padding: 6px 8px;
+}
+
+/* Animation douce pour l'ouverture/fermeture des dossiers */
+.subfolder-content {
+    transition: height 0.2s ease-out;
+}
+
+/* Amélioration de la lisibilité des fichiers */
+.file span {
+    font-size: 13px;
+}
+
+/* Style spécial pour les dossiers actifs */
+.folder-content.active {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Barre d'outils */
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    background-color: var(--nav-bg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.left-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.right-group {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.tool-btn {
+    border: none;
+    background: none;
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    color:var(--nav-btn);
+}
+
+.tool-btn:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.separator {
+    width: 1px;
+    height: 20px;
+    background-color: var(--border-color);
+    margin: 0 8px;
+}
+
+/* Bouton de thème */
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--nav-text);
+    cursor: pointer;
+    padding: 8px;
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle:hover {
+    background-color: var(--sidebar-hover);
+    transform: scale(1.1);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+[data-theme="dark"] .theme-toggle i.fa-sun {
+    color: #ff6b00;
+}
+
+[data-theme="light"] .theme-toggle i.fa-moon {
+    color: #6c757d;
+}
+
+/* Container principal */
+.main-container {
+    display: flex;
+    height: calc(100vh - 100px);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    border-right: 1px solid var(--border-color);
+    background-color: var(--sidebar-bg);
+    overflow-y: auto;
+}
+
+/* Zone de contenu */
+.content {
+    flex: 1;
+    padding:20px 0px 0px 10px;
+    overflow-y: auto;
+}
+
+/* Editeur de test */
+.test-editor {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.editor-toolbar {
+    padding: 8px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    gap: 8px;
+    background-color: var(--nav-bg);
+}
+
+.action-btn {
+    padding: 3px 10px;
+    background: var(--nav-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--nav-text);
+}
+
+.action-btn:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.action-btn i {
+    font-size: 12px;
+}
+
+/* Zone de contenu du test */
+.test-content {
+    flex: 1;
+    overflow: auto;
+    padding: 0;
+}
+
+/* Table des étapes de test */
+.test-steps {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.test-steps th {
+    background-color: var(--nav-bg);
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    text-align: left;
+    font-weight: 650;
+    color: var(--nav-btn);
+}
+
+.test-steps td {
+    border: 1px solid var(--border-color);
+    padding: 6px 8px;
+    color: var(--text-color);
+}
+
+.test-steps tr:hover {
+    background-color: var(--sidebar-hover);
+}
+
+
+
+.project-name {
+    font-size: 13px;
+    color: var(--nav-text);
+}
+
+/* Onglets de vue */
+.view-tabs {
+    display: flex;
+    padding: 4px 8px;
+    background-color: var(--nav-bg);
+    border-top: 1px solid var(--border-color);
+}
+
+.view-tab {
+    padding: 4px 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--nav-text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.view-tab i {
+    font-size: 12px;
+}
+
+.view-tab.active {
+    background-color: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    position: relative;
+    bottom: -1px;
+}
+
+/* Barre de statut */
+.status-bar {
+    border-top: 1px solid var(--border-color);
+    padding: 4px 8px;
+    background-color: var(--nav-bg);
+}
+
+.tabs {
+    display: flex;
+    gap: 15px;
+}
+
+.tab {
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.tab.active {
+    border-bottom: 2px solid var(--nav-text);
+    color: var(--nav-text);
+}
+
+/* Icons */
+.fa-chevron-right {
+    transition: transform 0.2s;
+    font-size: 12px;
+}
+
+.fa-chevron-right.rotated {
+    transform: rotate(90deg);
+}
+
+/* Utilitaires */
+.hidden {
+    display: none;
+}
+
+/* Icônes Katalon */
+.folder i {
+    color: #666;
+    width: 16px;
+    margin-right: 4px;
+}
+
+.folder[data-folder="Test Cases"] i {
+    color: #2196F3;
+}
+
+.folder[data-folder="Object Repository"] i {
+    color: #4CAF50;
+}
+
+.folder[data-folder="Test Suites"] i {
+    color: #9C27B0;
+}
+
+.folder[data-folder="Reports"] i {
+    color: #FF9800;
+}
+
+.folder[data-folder="Data Files"] i {
+    color: #795548;
+}
+
+.folder[data-folder="Keywords"] i {
+    color: #607D8B;
+}
+
+.file i {
+    color: #666;
+    width: 16px;
+    margin-right: 4px;
+}
+
+.file[data-ext="groovy"] i {
+    color: #2196F3;
+}
+
+.file[data-ext="json"] i {
+    color: #FFC107;
+}
+
+.file[data-ext="xlsx"] i,
+.file[data-ext="xls"] i {
+    color: #4CAF50;
+}
+
+/* Syntax Highlighting for Groovy */
+.language-groovy .keyword { color: #569cd6; }
+.language-groovy .string { color: #ce9178; }
+.language-groovy .comment { color: #6a9955; }
+.language-groovy .function { color: #dcdcaa; }
+.language-groovy .class { color: #4ec9b0; }
+.language-groovy .number { color: #b5cea8; }
+.language-groovy .operator { color: #d4d4d4; }
+
+/* Variables View */
+.test-steps-variables {
+    padding: 16px;
+    background: white;
+    overflow: auto;
+    height: 100%;
+}
+
+.test-steps-variables table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.test-steps-variables th,
+.test-steps-variables td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid var(--border-color);
+}
+
+.test-steps-variables th {
+    background: var(--nav-bg);
+    font-weight: 600;
+}
+
+.test-steps-variables tr:hover {
+    background: var(--sidebar-hover);
+}
+
+/* Script View */
+.test-steps-script {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 16px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 13px;
+    line-height: 1.4;
+    overflow: auto;
+    height: 100%;
+}
+
+.test-steps-script pre {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.test-steps-script code {
+    font-family: inherit;
+}
+
+/* Bottom Tabs */
+.bottom-tabs {
+    border-top: 1px solid var(--border-color);
+    background-color: var(--nav-bg);
+    padding: 8px;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: 4px;
+}
+
+.view-tab {
+    padding: 6px 16px;
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 3px;
+}
+
+.view-tab:hover {
+    background: var(--sidebar-hover);
+    border-color: var(--border-color);
+}
+
+.view-tab i {
+    font-size: 12px;
+    color: var(--nav-text);
+}
+
+.view-tab.active {
+    background: var(--sidebar-bg);
+    border-color: var(--border-color);
+    color: var(--nav-text);
+}
+
+.view-tab.active i {
+    color: var(--nav-text);
+}
+
+/* Menu déroulant */
+.menu-item {
+    position: relative;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.menu-item:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--dropdown-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    min-width: 180px;
+    z-index: 1000;
+    display: none;
+}
+
+.menu-option {
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.menu-option:hover {
+    background-color: var(--dropdown-hover);
+}
+
+/* Sélecteur de projet */
+.project-type-select {
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.project-type-select:hover {
+    border-color: var(--accent-color);
+}
+
+.project-type-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.25);
+}
+
+/* Styles pour le mode sombre */
+[data-theme="dark"] .sidebar {
+    background-color: #121a26;
+    border-right-color: #333;
+}
+
+[data-theme="dark"] .folder-content,
+[data-theme="dark"] .file {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .folder-content:hover,
+[data-theme="dark"] .file:hover {
+    background-color: #2d2d2d;
+}
+
+[data-theme="dark"] .folder.active > .folder-content,
+[data-theme="dark"] .file.active {
+    background-color: #2d2d2d;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .folder i,
+[data-theme="dark"] .file i {
+    color: #00b1a5;
+}
+
+[data-theme="dark"] .folder-arrow {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .tree-view {
+    color: #e0e0e0;
+}
+
+/* Amélioration de la visibilité des icônes spécifiques en mode sombre */
+[data-theme="dark"] .fa-cog { color: #75beff; }
+[data-theme="dark"] .fa-file-code { color: #79c0ff; }
+[data-theme="dark"] .fa-cube { color: #7ee787; }
+[data-theme="dark"] .fa-layer-group { color: #d2a8ff; }
+[data-theme="dark"] .fa-key { color: #ffa657; }
+[data-theme="dark"] .fa-chart-bar { color: #ff7b72; }

@@ -1,0 +1,6 @@
+/* Light Theme (Default) */
+:root {
+    --bg: white;
+    --text: #333;
+    --accent: #1a3d5d;
+}
