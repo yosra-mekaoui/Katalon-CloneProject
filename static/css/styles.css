@@ -4,7 +4,6 @@
     --text-color: #333333;
     --nav-bg: #f0f4f8;
     --nav-text: #1a3d5d;
-    --nav-btn: #333333;
     --sidebar-bg: #e3eaf4;
     --sidebar-hover: #cdd8e6;
     --border-color: #a0b3c7;
@@ -12,8 +11,8 @@
     --dropdown-hover: #d6e4f0;
 }
 
-/* Dark Mode - Orange */
-:root[data-theme="dark"][data-color="orange"] {
+/* Variables de couleur pour le mode sombre avec orang */
+[data-theme="dark"] {
     --bg-color: #121a26;
     --text-color: #ffffff;
     --nav-bg: #1e2b3a;
@@ -26,14 +25,23 @@
     --dropdown-hover: #2a4b73;
 }
 
-/* Light Mode - Blue */
-:root[data-theme="light"][data-color="blue"] {
-    --nav-text: #1de4cf;
-    --nav-btn: #1de4cf;
+/* Light mode with blue theme */
+[data-theme="light-blue"] {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --nav-bg: #f0f4f8;
+    --nav-text: #417f99;
+    --nav-btn: #058079;
+    --sidebar-bg: #e3eaf4;
+    --sidebar-hover: #cdd8e6;
+    --border-color: #a0b3c7;
+    --dropdown-bg: #ffffff;
+    --dropdown-hover: #d6e4f0;
+    --icon-color: #ff6b00;
 }
 
-/* Dark Mode - Blue */
-:root[data-theme="dark"][data-color="blue"] {
+/* Dark mode with blue theme */
+[data-theme="dark-blue"] {
     --bg-color: #121a26;
     --text-color: #ffffff;
     --nav-bg: #1e2b3a;
@@ -46,57 +54,6 @@
     --dropdown-hover: #2a4b73;
 }
 
-/* Application des variables */
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-}
-
-.top-nav {
-    background-color: var(--nav-bg);
-    color: var(--nav-text);
-}
-
-.toolbar button {
-    color: var(--nav-btn);
-}
-
-.sidebar {
-    background-color: var(--sidebar-bg);
-    border-color: var(--border-color);
-}
-
-.folder-content:hover,
-.file:hover {
-    background-color: var(--sidebar-hover);
-}
-
-.dropdown-menu {
-    background-color: var(--dropdown-bg);
-    border-color: var(--border-color);
-}
-
-.dropdown-menu li:hover {
-    background-color: var(--dropdown-hover);
-}
-
-/* Theme menu styles */
-.submenu {
-    background-color: var(--dropdown-bg);
-    border: 1px solid var(--border-color);
-}
-
-.theme-option {
-    color: var(--text-color);
-}
-
-.theme-option:hover {
-    background-color: var(--dropdown-hover);
-}
-
-.theme-option i {
-    color: var(--nav-text);
-}
 
 /* Reset et styles de base */
 * {
@@ -147,7 +104,10 @@ body {
     background-color: var(--sidebar-hover);
 }
 
-/* Style du menu déroulant */
+.main-menu > li:hover .dropdown-menu {
+    display: block;
+}
+
 .dropdown-menu {
     display: none;
     position: absolute;
@@ -198,8 +158,8 @@ body {
 /* Styles pour le sidebar et l'arborescence */
 .sidebar {
     width: 250px;
-    background-color: var(--sidebar-bg);
-    border-right: 1px solid var(--border-color);
+    background-color: #f8f9fa;
+    border-right: 1px solid #dee2e6;
     padding: 10px;
     height: 100%;
     overflow-y: auto;
@@ -230,7 +190,7 @@ body {
 }
 
 .folder-content:hover {
-    background-color: var(--sidebar-hover);
+    background-color: #e9ecef;
 }
 
 .folder-arrow {
@@ -240,9 +200,6 @@ body {
     align-items: center;
     justify-content: center;
     transition: transform 0.2s;
-    color: #666;
-    font-size: 12px;
-    margin-right: 4px;
 }
 
 .folder-arrow.rotated {
@@ -253,22 +210,14 @@ body {
     margin-right: 8px;
     width: 16px;
     text-align: center;
-    color: #666;
-}
-
-.folder span, .file span {
-    margin-left: 6px;
-    color: var(--text-color);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .subfolder-content {
-    position: relative;
-    margin-left: 16px;
-    padding-left: 12px;
-    border-left: 1px solid #e0e0e0;
+    list-style: none;
+    padding-left: 28px;
+    margin: 0;
+    overflow: hidden;
+    transition: height 0.2s;
 }
 
 .subfolder-content.hidden {
@@ -278,21 +227,20 @@ body {
 .file {
     display: flex;
     align-items: center;
-    padding: 4px 8px 4px 28px;
+    padding: 4px 8px;
     cursor: pointer;
     border-radius: 4px;
-    transition: background-color 0.2s;
+    margin: 2px 0;
 }
 
 .file:hover {
-    background-color: var(--sidebar-hover);
+    background-color: #e9ecef;
 }
 
 .file i {
     margin-right: 8px;
     width: 16px;
     text-align: center;
-    color: #666;
 }
 
 /* Assurer que les dossiers restent visibles */
@@ -303,7 +251,7 @@ body {
 
 .folder.active > .folder-content,
 .file.active {
-    background-color: var(--sidebar-hover);
+    background-color: #e9ecef;
     font-weight: 500;
 }
 
@@ -345,6 +293,7 @@ body {
 
 .fa-chevron-right {
     transition: transform 0.2s;
+    font-size: 12px;
 }
 
 .fa-chevron-right.rotated {
@@ -370,8 +319,8 @@ body {
 }
 
 .sidebar {
-    background-color: var(--sidebar-bg);
-    border-right: 1px solid var(--border-color);
+    background-color: #f8f9fa;
+    border-right: 1px solid #dee2e6;
     padding: 10px 0;
     height: 100%;
     overflow-y: auto;
@@ -424,7 +373,7 @@ body {
 .folder i:not(.folder-arrow), .file i {
     width: 20px;
     text-align: center;
-    color: #666;
+    color: var(--icon-color);
 }
 
 .folder span, .file span {
@@ -497,7 +446,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 8px;
-    background-color: var(--nav-bg);
+    background: var(--nav-bg);
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -628,7 +577,15 @@ body {
 .test-content {
     flex: 1;
     overflow: auto;
-    padding: 0;
+    padding: 10px;
+    background-color: var(--nav-bg);
+}
+
+.test-content .selected {
+    flex: 1;
+    overflow: auto;
+    padding: 10px;
+    background-color: var(--nav-bg);
 }
 
 /* Table des étapes de test */
@@ -678,7 +635,7 @@ body {
     border: none;
     cursor: pointer;
     font-size: 13px;
-    color: var(--nav-text);
+    color: var(--text-color);
     display: flex;
     align-items: center;
     gap: 6px;
@@ -696,12 +653,19 @@ body {
     bottom: -1px;
 }
 
-/* Barre de statut */
+* Barre de statut */
 .status-bar {
+position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+        text-align: center;
+
     border-top: 1px solid var(--border-color);
     padding: 4px 8px;
     background-color: var(--nav-bg);
 }
+
 
 .tabs {
     display: flex;
@@ -874,8 +838,7 @@ body {
 
 .view-tab i {
     font-size: 12px;
-    color: var(--nav-text);
-}
+color: var(--text-color);}
 
 .view-tab.active {
     background: var(--sidebar-bg);
@@ -907,7 +870,7 @@ body {
     background-color: var(--dropdown-bg);
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     min-width: 180px;
     z-index: 1000;
     display: none;
@@ -968,9 +931,8 @@ body {
     color: #ffffff;
 }
 
-[data-theme="dark"] .folder i,
-[data-theme="dark"] .file i {
-    color: #00b1a5;
+[data-theme="dark"] .folder i, [data-theme="dark"] .file i {
+    color: #ff6b00;
 }
 
 [data-theme="dark"] .folder-arrow {
@@ -988,3 +950,371 @@ body {
 [data-theme="dark"] .fa-layer-group { color: #d2a8ff; }
 [data-theme="dark"] .fa-key { color: #ffa657; }
 [data-theme="dark"] .fa-chart-bar { color: #ff7b72; }
+
+/* Styles pour le sous-menu des thèmes */
+.theme-submenu {
+    position: relative;
+}
+
+.theme-submenu .submenu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: var(--dropdown-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 8px 0;
+    min-width: 180px;
+}
+
+.theme-submenu:hover .submenu {
+    display: block;
+}
+
+.theme-submenu .submenu li {
+    padding: 8px 16px;
+    cursor: pointer;
+    color: var (--nav-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-submenu .submenu li:hover {
+    background-color: var(--dropdown-hover);
+}
+
+.theme-submenu .submenu li i {
+    width: 16px;
+    text-align: center;
+}
+/* Styles de base pour les menus déroulants */
+.dropdown-menu,
+.submenu {
+    background-color: var(--dropdown-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+:root .theme-submenu .submenu li {
+    color: #333333 !important;
+}
+/* Garde le texte en blanc uniquement pour les modes sombres */
+[data-theme="dark"] .theme-submenu .submenu li,
+[data-theme="dark-blue"] .theme-submenu .submenu li {
+    color: #ffffff !important;
+}
+/* Styles pour les éléments de menu */
+.dropdown-menu li,
+.submenu li {
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Styles des icônes */
+.fa-sun {
+    color: #ffa132 !important;
+}
+
+.fa-moon {
+    color: #1de4cf !important;
+}
+
+/* Styles pour le mode sombre */
+[data-theme="dark"] .dropdown-menu li,
+[data-theme="dark"] .submenu li {
+    color: #ffffff;
+}
+
+/* Effets de survol */
+.dropdown-menu li:hover,
+.submenu li:hover {
+    background-color: var(--dropdown-hover);
+}
+/* Styles pour les menus déroulants et sous-menus */
+.main-menu > li:hover .dropdown-menu,
+.theme-submenu:hover .submenu {
+    display: block;
+}
+
+.dropdown-menu,
+.theme-submenu .submenu {
+    display: none;
+    position: absolute;
+    background-color: var(--dropdown-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    list-style: none;
+    padding: 5px 0;
+    margin: 0;
+    min-width: 180px;
+}
+
+.dropdown-menu {
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+}
+
+.theme-submenu {
+    position: relative;
+}
+
+.theme-submenu .submenu {
+    left: 100%;
+    top: 0;
+    z-index: 1001;
+}
+
+
+.dropdown-menu li,
+ .submenu li {
+    padding: 8px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var (--text-color);
+    transition: background-color 0.2s;
+}
+
+.dropdown-menu li:hover,
+.theme-submenu .submenu li:hover {
+    background-color: var(--dropdown-hover);
+}
+
+.dropdown-menu i,
+.theme-submenu .submenu i {
+    width: 16px;
+    text-align: center;
+}
+
+/* Styles pour la barre d'onglets */
+.tab-bar {
+    background-color: var(--nav-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0;
+}
+
+.tabs-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2px;
+}
+
+.tab-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+    gap: 8px;
+    position: relative;
+    color: var(--text-color);
+}
+
+.tab-item.active {
+    background-color: var(--dropdown-bg);
+    border-bottom-color: var(--dropdown-bg);
+    z-index: 1;
+}
+
+.tab-item:hover {
+    background-color: var(--dropdown-hover);
+}
+
+.tab-close {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-left: 4px;
+    font-size: 12px;
+}
+
+.tab-close:hover {
+    background-color: var(--sidebar-hover);
+}
+
+/* Styles pour le tableau manuel */
+.manual-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background: var(--background-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.manual-table th {
+    background: var(--primary-color);
+    color: var(--text-color-light);
+    padding: 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.manual-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.manual-table input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--input-background);
+    color: var(--text-color);
+}
+
+.manual-table input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color-light);
+}
+
+/* Styles pour les boutons d'action */
+.action-buttons {
+    display: flex;
+    gap: 4px;
+    justify-content: flex-end;
+}
+
+.action-buttons button {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: var(--button-background);
+    color: var(--text-color);
+    transition: all 0.2s ease;
+}
+
+.action-buttons button:hover {
+    background: var(--button-hover-background);
+}
+
+/* Style pour le bouton Move Up */
+.action-buttons button:nth-child(1) {
+    background: var(--success-color);
+    color: white;
+}
+
+/* Style pour le bouton Move Down */
+.action-buttons button:nth-child(2) {
+    background: var(--info-color);
+    color: white;
+}
+
+/* Style pour le bouton Delete */
+.action-buttons button:last-child {
+    background: var(--danger-color);
+    color: white;
+}
+
+/* Style pour le bouton Add Step */
+.add-step-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.add-step-btn:hover {
+    background: var(--primary-color-dark);
+}
+
+.add-step-btn::before {
+    content: '+';
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+/* Style pour l'éditeur de script */
+#scriptEditor {
+    width: 100%;
+    min-height: 400px;
+    padding: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--input-background);
+    color: var(--text-color);
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+#scriptEditor:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color-light);
+}
+
+/* Styles pour les éléments de fichier */
+.file-item {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    gap: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    color: var(--text-color);
+}
+
+.file-item:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.file-item i {
+    width: 16px;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.file-item span {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Fix pour les erreurs CSS précédentes */
+.folder-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+}
+
+.folder-icon {
+    width: 16px;
+    text-align: center;
+}
+
+.folder-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

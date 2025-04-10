@@ -1,6 +1,0 @@
-/* Dark Orange Theme */
-:root[data-theme="dark"][data-color="orange"] {
-    --bg: #121a26;
-    --text: white;
-    --accent: #ff6b00;
-}

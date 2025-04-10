@@ -1,6 +1,0 @@
-/* Light Blue Theme */
-:root[data-theme="light"][data-color="blue"] {
-    --bg: white;
-    --text: #333;
-    --accent: #1de4cf;
-}

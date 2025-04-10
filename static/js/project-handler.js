@@ -71,6 +71,9 @@ const ALLOWED_FOLDERS = [
 // Dossiers à cacher
 const HIDDEN_FOLDERS = ['resources', 'Utils', 'WebUI'];
 
+// Variable globale pour stocker le chemin du projet
+let currentProjectPath = '';
+
 // Attendre que le DOM soit chargé
 document.addEventListener('DOMContentLoaded', function() {
     initializeFileMenu();
@@ -113,39 +116,31 @@ function initializeFileMenu() {
 
 async function handleFileSelect(event) {
     try {
-        const directoryHandle = await window.showDirectoryPicker();
+        const directoryHandle = await window.showDirectoryPicker({
+            startIn: 'desktop'
+        });
         const files = [];
-        const projectPath = directoryHandle.name;
+        currentProjectPath = "C:\\Users\\yosra.mekaoui\\Desktop\\pythonProjectSeleniumV4";
         
         // Fonction récursive pour lire les fichiers
         async function readDirectory(dirHandle, path = '') {
-            console.log('Reading directory:', path || 'root');
             for await (const entry of dirHandle.values()) {
                 const entryPath = path ? `${path}/${entry.name}` : entry.name;
-                console.log('Processing entry:', entry.name, 'of type:', entry.kind, 'at path:', entryPath);
                 
                 if (entry.kind === 'file') {
                     const file = await entry.getFile();
-                    const fullPath = `${projectPath}/${entryPath}`;
-                    console.log('Adding file:', fullPath);
                     files.push({
                         file: file,
                         path: entryPath,
-                        webkitRelativePath: fullPath
+                        webkitRelativePath: entryPath
                     });
                 } else if (entry.kind === 'directory') {
-                    console.log('Entering subdirectory:', entryPath);
                     await readDirectory(entry, entryPath);
                 }
             }
         }
 
-        // Lire tous les fichiers
         await readDirectory(directoryHandle);
-        console.log("Tous les fichiers trouvés:", files.map(f => ({
-            path: f.path,
-            webkitRelativePath: f.webkitRelativePath
-        })));
         
         // Créer la structure
         const structure = scanDirectory(files);
@@ -157,7 +152,7 @@ async function handleFileSelect(event) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                path: projectPath,
+                path: currentProjectPath,
                 structure: structure
             })
         });
@@ -294,23 +289,424 @@ function scanDirectory(fileList) {
     return structure;
 }
 
-function shouldShowFile(fileName, folderName, isInSubfolder = false) {
-    const config = FOLDER_CONFIG[folderName];
-    if (!config) return false;
-    
-    // Pour les dossiers qui montrent tout le contenu
-    if (config.showAllContent) return true;
-    
-    // Cas spécial pour Profiles : accepter tous les fichiers .glbl
-    if (folderName === 'Profiles' && fileName.toLowerCase().endsWith('.glbl')) {
-        return true;
+function initializeFolderHandlers() {
+    // Add click handlers to all folders
+    const folders = document.querySelectorAll('.folder');
+    folders.forEach(folder => {
+        folder.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            // Toggle the folder open/closed state
+            const ul = this.nextElementSibling;
+            if (ul) {
+                const isOpen = this.classList.toggle('open');
+                if (isOpen) {
+                    ul.style.display = 'block';
+                } else {
+                    ul.style.display = 'none';
+                }
+            }
+        });
+    });
+}
+
+function initializeTestStepsTable() {
+    // Sélection des lignes dans la table
+    const testStepsTable = document.querySelector('.test-steps');
+    if (testStepsTable) {
+        testStepsTable.addEventListener('click', function(e) {
+            const tr = e.target.closest('tr');
+            if (tr && !tr.closest('thead')) {
+                document.querySelectorAll('.test-steps tbody tr').forEach(row => row.classList.remove('selected'));
+                tr.classList.add('selected');
+            }
+        });
     }
-    
-    // Vérifier les extensions
-    if (!config.extensions) return true;
-    return config.extensions.some(ext => 
-        fileName.toLowerCase().endsWith(ext.toLowerCase())
-    );
+
+    // Gestion des boutons d'action
+    const addButton = document.querySelector('.action-btn:nth-child(1)');
+    const deleteButton = document.querySelector('.action-btn:nth-child(2)');
+    const moveUpButton = document.querySelector('.action-btn:nth-child(3)');
+    const moveDownButton = document.querySelector('.action-btn:nth-child(4)');
+
+    if (addButton) {
+        addButton.addEventListener('click', function() {
+            const tbody = document.querySelector('.test-steps tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${tbody.children.length + 1}</td>
+                <td>Object</td>
+                <td>Action</td>
+                <td>Input</td>
+                <td>Description</td>
+            `;
+            tbody.appendChild(newRow);
+        });
+    }
+
+    if (deleteButton) {
+        deleteButton.addEventListener('click', function() {
+            const selectedRow = document.querySelector('.test-steps tr.selected');
+            if (selectedRow) {
+                selectedRow.remove();
+                updateStepNumbers();
+            }
+        });
+    }
+
+    // Gestion du déplacement des étapes
+    if (moveUpButton) {
+        moveUpButton.addEventListener('click', function() {
+            const selectedRow = document.querySelector('.test-steps tr.selected');
+            if (selectedRow && selectedRow.previousElementSibling) {
+                selectedRow.parentNode.insertBefore(selectedRow, selectedRow.previousElementSibling);
+                updateStepNumbers();
+            }
+        });
+    }
+
+    if (moveDownButton) {
+        moveDownButton.addEventListener('click', function() {
+            const selectedRow = document.querySelector('.test-steps tr.selected');
+            if (selectedRow && selectedRow.nextElementSibling) {
+                selectedRow.parentNode.insertBefore(selectedRow.nextElementSibling, selectedRow);
+                updateStepNumbers();
+            }
+        });
+    }
+
+    // Mise à jour des numéros d'étapes
+    function updateStepNumbers() {
+        const rows = document.querySelectorAll('.test-steps tbody tr');
+        rows.forEach((row, index) => {
+            const stepCell = row.cells[0];
+            const stepText = stepCell.textContent.split('-')[1].trim();
+            stepCell.textContent = `${index + 1}`;
+        });
+    }
+}
+
+function initializeViewTabs() {
+    // Gestion des onglets de vue (Manual/Script/Variables)
+    const viewTabs = document.querySelectorAll('.view-tab');
+    viewTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            viewTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            // Changement de vue en fonction de l'onglet
+            const viewType = tab.textContent.trim().toLowerCase();
+            const testContent = document.querySelector('.test-content');
+            
+            switch(viewType) {
+                case 'manual':
+                    testContent.querySelector('.test-steps').style.display = 'table';
+                    break;
+                case 'script':
+                    // Ici, vous pouvez ajouter la logique pour afficher le code
+                    break;
+                case 'variables':
+                    // Ici, vous pouvez ajouter la logique pour afficher les variables
+                    break;
+            }
+        });
+    });
+}
+
+function initializeStatusBarTabs() {
+    // Gestion des onglets de la barre de statut
+    const statusTabs = document.querySelectorAll('.status-bar .tab');
+    statusTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            statusTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+        });
+    });
+}
+
+function initializeToolButtons() {
+    // Gestion des boutons de la barre d'outils
+    const toolButtons = document.querySelectorAll('.tool-btn');
+    toolButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Ajouter ici la logique pour chaque bouton
+            console.log('Tool button clicked:', button.innerHTML);
+        });
+    });
+}
+
+function handleFileClick(filePath) {
+    if (filePath.endsWith('.py')) {
+        fetch('/open_file', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                path: filePath,
+                project_path: currentProjectPath
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.currentFile = {
+                    path: filePath,
+                    content: data.content,
+                    parsedContent: data.parsed_content || []
+                };
+
+                const activeTab = document.querySelector('.view-tab.active');
+                const viewMode = activeTab ? activeTab.getAttribute('data-view') : 'manual';
+                displayFileContent(viewMode);
+
+                // Utiliser les classes pour les boutons
+                const buttons = document.querySelectorAll('.action-btn');
+                buttons.forEach(button => {
+                    const action = button.textContent.trim().toLowerCase();
+                    button.onclick = () => {
+                        switch (action) {
+                            case 'add':
+                                addStep();
+                                break;
+                            case 'delete':
+                                const selectedRow = document.querySelector('tr.selected');
+                                if (selectedRow) {
+                                    deleteStep(selectedRow.rowIndex - 1);
+                                }
+                                break;
+                            case 'move up':
+                                const upRow = document.querySelector('tr.selected');
+                                if (upRow && upRow.rowIndex > 1) {
+                                    moveStepUp(upRow.rowIndex - 1);
+                                }
+                                break;
+                            case 'move down':
+                                const downRow = document.querySelector('tr.selected');
+                                if (downRow && downRow.rowIndex < window.currentFile.parsedContent.length) {
+                                    moveStepDown(downRow.rowIndex - 1);
+                                }
+                                break;
+                        }
+                        displayFileContent('manual');
+                    };
+                });
+            } else {
+                console.error('Erreur lors de l\'ouverture du fichier:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors de l\'ouverture du fichier:', error);
+        });
+    }
+}
+
+function addStep() {
+    if (!window.currentFile || !window.currentFile.parsedContent) return;
+    window.currentFile.parsedContent.push({
+        action: 'click',
+        target: '',
+        value: ''
+    });
+    saveCurrentFile();
+}
+
+function deleteStep(index) {
+    if (!window.currentFile || !window.currentFile.parsedContent) return;
+    window.currentFile.parsedContent.splice(index, 1);
+    saveCurrentFile();
+}
+
+function moveStepUp(index) {
+    if (!window.currentFile || !window.currentFile.parsedContent || index <= 0) return;
+    const steps = window.currentFile.parsedContent;
+    [steps[index], steps[index - 1]] = [steps[index - 1], steps[index]];
+    saveCurrentFile();
+}
+
+function moveStepDown(index) {
+    if (!window.currentFile || !window.currentFile.parsedContent) return;
+    const steps = window.currentFile.parsedContent;
+    if (index >= steps.length - 1) return;
+    [steps[index], steps[index + 1]] = [steps[index + 1], steps[index]];
+    saveCurrentFile();
+}
+
+function saveCurrentFile() {
+    if (!window.currentFile) {
+        console.error('Aucun fichier à sauvegarder');
+        return;
+    }
+
+    const activeTab = document.querySelector('.view-tab.active');
+    const viewMode = activeTab ? activeTab.getAttribute('data-view') : 'manual';
+    let content;
+
+    if (viewMode === 'script') {
+        // Utiliser le contenu de l'éditeur de script
+        const scriptEditor = document.getElementById('scriptEditor');
+        content = scriptEditor.value;
+    } else {
+        // Convertir le contenu manuel en script Python
+        content = convertToScript(window.currentFile.parsedContent);
+    }
+
+    fetch('/save_file', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            path: window.currentFile.path,
+            content: content,
+            project_path: currentProjectPath
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Fichier sauvegardé avec succès');
+        } else {
+            console.error('Erreur lors de la sauvegarde:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Erreur lors de la sauvegarde:', error);
+    });
+}
+
+// Fonction pour convertir les étapes en script Python
+function convertToScript(steps) {
+    let script = 'def test():\n';
+    steps.forEach(step => {
+        let line = `    ${step.action}("${step.target}"`;
+        if (step.value) {
+            line += `, "${step.value}"`;
+        }
+        line += ')\n';
+        script += line;
+    });
+    return script;
+}
+
+// Mise à jour de la fonction displayFileContent pour ajouter les boutons d'action
+function displayFileContent(viewMode) {
+    const contentArea = document.querySelector('.test-content');
+        
+    if (viewMode === 'script') {
+        // Create container for Monaco Editor
+        contentArea.innerHTML = `
+            <div class="script-editor">
+                <textarea id="scriptContent" style="display: none;">${window.currentFile.content || ''}</textarea>
+                <div id="monaco-editor-container" style="width: 100%; height: 500px;"></div>
+            </div>
+        `;
+
+        // Trigger view change event for Monaco Editor initialization
+        document.dispatchEvent(new CustomEvent('viewChanged', {
+            detail: { view: 'script' }
+        }));
+
+        // Set content in Monaco Editor if it exists
+        if (window.monacoHandler && window.monacoHandler.editor) {
+            window.monacoHandler.setContent(window.currentFile.content || '');
+        }
+    } else if (viewMode === 'manual') {
+        let tableHTML = `
+            <table class="test-steps">
+                <thead>
+                    <tr>
+                        <th>Step</th>
+                        <th>Action Item</th>
+                        <th>Action</th>
+                        <th>Input</th>
+                        <th>Output</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        if (Array.isArray(window.currentFile.parsedContent)) {
+            window.currentFile.parsedContent.forEach((step, index) => {
+                tableHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>WebUI</td>
+                        <td>${step.action || ''}</td>
+                        <td>${step.target || ''}</td>
+                        <td></td>
+                        <td>WebUI action</td>
+                    </tr>
+                `;
+            });
+        }
+
+        tableHTML += `
+                </tbody>
+            </table>
+        `;
+
+        contentArea.innerHTML = tableHTML;
+
+        // Ajouter la sélection des lignes
+        const rows = contentArea.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            row.addEventListener('click', () => {
+                rows.forEach(r => r.classList.remove('selected'));
+                row.classList.add('selected');
+            });
+        });
+    }
+}
+
+function initializeFileHandlers() {
+    // Gestionnaire pour les clics sur les fichiers
+    document.addEventListener('click', function(e) {
+        const fileItem = e.target.closest('.file-item');
+        if (fileItem && fileItem.dataset.path) {
+            handleFileClick(fileItem.dataset.path);
+        }
+    });
+
+    // Gestionnaire pour les onglets Manual/Script
+    document.querySelectorAll('.view-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Retirer la classe active de tous les onglets
+            document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+            // Ajouter la classe active à l'onglet cliqué
+            this.classList.add('active');
+
+            const viewMode = this.getAttribute('data-view');
+            if (window.currentFile) {
+                displayFileContent(viewMode);
+            }
+        });
+    });
+
+    // Gestionnaire pour le bouton de sauvegarde
+    const saveBtn = document.querySelector('.tool-btn i.fas.fa-save');
+    if (saveBtn) {
+        saveBtn.parentElement.addEventListener('click', saveCurrentFile);
+    }
+}
+
+// Initialiser les gestionnaires lors du chargement de la page
+document.addEventListener('DOMContentLoaded', initializeFileHandlers);
+
+// Listen for script content changes
+document.addEventListener('scriptContentChanged', (event) => {
+    if (window.currentFile) {
+        window.currentFile.content = event.detail.content;
+        window.currentFile.isDirty = true;
+    }
+});
+
+function getFileIcon(fileName) {
+    if (fileName.endsWith('.py')) return 'fab fa-python';
+    if (fileName.endsWith('.xml')) return 'fas fa-file-code';
+    if (fileName.endsWith('.glbl')) return 'fas fa-globe';
+    return 'fas fa-file';
 }
 
 function createFolderElement(folder) {
@@ -457,6 +853,82 @@ function updateProjectTree(project) {
     });
 }
 
+function shouldShowFile(fileName, folderName, isInSubfolder = false) {
+    const config = FOLDER_CONFIG[folderName];
+    if (!config) return false;
+    
+    // Pour les dossiers qui montrent tout le contenu
+    if (config.showAllContent) return true;
+    
+    // Cas spécial pour Profiles : accepter tous les fichiers .glbl
+    if (folderName === 'Profiles' && fileName.toLowerCase().endsWith('.glbl')) {
+        return true;
+    }
+    
+    // Vérifier les extensions
+    if (!config.extensions) return true;
+    return config.extensions.some(ext => 
+        fileName.toLowerCase().endsWith(ext.toLowerCase())
+    );
+}
+
+// Fonction pour créer un élément de fichier
+function createFileElement(file, isInSubfolder = false) {
+    const fileItem = document.createElement('li');
+    fileItem.className = 'file-item';
+    fileItem.dataset.path = file.path;
+
+    const fileIcon = document.createElement('i');
+    fileIcon.className = getFileIcon(file.name);
+    
+    const fileNameSpan = document.createElement('span');
+    fileNameSpan.textContent = file.name;
+    
+    fileItem.appendChild(fileIcon);
+    fileItem.appendChild(fileNameSpan);
+    
+    fileItem.addEventListener('click', function(e) {
+        e.stopPropagation();
+        handleFileClick(file.path);
+    });
+    
+    return fileItem;
+}
+
+// Mise à jour de la fonction handleFileClick
+async function handleFileClick(filePath) {
+    try {
+        const response = await fetch('/open_file', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ path: filePath })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            // Le contenu sera géré par le système d'onglets
+            const pathParts = filePath.split('/');
+            const fileName = pathParts[pathParts.length - 1];
+            
+            // Déclencher un événement personnalisé pour l'ouverture du fichier
+            const event = new CustomEvent('fileOpened', {
+                detail: {
+                    path: filePath,
+                    name: fileName,
+                    content: data.content
+                }
+            });
+            document.dispatchEvent(event);
+        } else {
+            console.error('Erreur lors de l\'ouverture du fichier:', data.message);
+        }
+    } catch (error) {
+        console.error('Erreur lors de la requête:', error);
+    }
+}
+
 // Ajouter les styles CSS nécessaires
 const style = document.createElement('style');
 style.textContent = `
@@ -486,185 +958,3 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
-function initializeFolderHandlers() {
-    // Add click handlers to all folders
-    const folders = document.querySelectorAll('.folder');
-    folders.forEach(folder => {
-        folder.addEventListener('click', function(e) {
-            e.stopPropagation();
-            
-            // Toggle the folder open/closed state
-            const ul = this.nextElementSibling;
-            if (ul) {
-                const isOpen = this.classList.toggle('open');
-                if (isOpen) {
-                    ul.style.display = 'block';
-                } else {
-                    ul.style.display = 'none';
-                }
-            }
-        });
-    });
-}
-
-function initializeTestStepsTable() {
-    // Sélection des lignes dans la table
-    const testStepsTable = document.querySelector('.test-steps');
-    if (testStepsTable) {
-        testStepsTable.addEventListener('click', function(e) {
-            const tr = e.target.closest('tr');
-            if (tr && !tr.closest('thead')) {
-                document.querySelectorAll('.test-steps tbody tr').forEach(row => row.classList.remove('selected'));
-                tr.classList.add('selected');
-            }
-        });
-    }
-
-    // Gestion des boutons d'action
-    const addButton = document.querySelector('.action-btn:nth-child(1)');
-    const deleteButton = document.querySelector('.action-btn:nth-child(2)');
-    const moveUpButton = document.querySelector('.action-btn:nth-child(3)');
-    const moveDownButton = document.querySelector('.action-btn:nth-child(4)');
-
-    if (addButton) {
-        addButton.addEventListener('click', function() {
-            const tbody = document.querySelector('.test-steps tbody');
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td>${tbody.children.length + 1} - New Step</td>
-                <td>Object</td>
-                <td>Action</td>
-                <td>Input</td>
-                <td>Description</td>
-            `;
-            tbody.appendChild(newRow);
-        });
-    }
-
-    if (deleteButton) {
-        deleteButton.addEventListener('click', function() {
-            const selectedRow = document.querySelector('.test-steps tr.selected');
-            if (selectedRow) {
-                selectedRow.remove();
-                updateStepNumbers();
-            }
-        });
-    }
-
-    // Gestion du déplacement des étapes
-    if (moveUpButton) {
-        moveUpButton.addEventListener('click', function() {
-            const selectedRow = document.querySelector('.test-steps tr.selected');
-            if (selectedRow && selectedRow.previousElementSibling) {
-                selectedRow.parentNode.insertBefore(selectedRow, selectedRow.previousElementSibling);
-                updateStepNumbers();
-            }
-        });
-    }
-
-    if (moveDownButton) {
-        moveDownButton.addEventListener('click', function() {
-            const selectedRow = document.querySelector('.test-steps tr.selected');
-            if (selectedRow && selectedRow.nextElementSibling) {
-                selectedRow.parentNode.insertBefore(selectedRow.nextElementSibling, selectedRow);
-                updateStepNumbers();
-            }
-        });
-    }
-
-    // Mise à jour des numéros d'étapes
-    function updateStepNumbers() {
-        const rows = document.querySelectorAll('.test-steps tbody tr');
-        rows.forEach((row, index) => {
-            const stepCell = row.cells[0];
-            const stepText = stepCell.textContent.split('-')[1].trim();
-            stepCell.textContent = `${index + 1} - ${stepText}`;
-        });
-    }
-}
-
-function initializeViewTabs() {
-    // Gestion des onglets de vue (Manual/Script/Variables)
-    const viewTabs = document.querySelectorAll('.view-tab');
-    viewTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            viewTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            
-            // Changement de vue en fonction de l'onglet
-            const viewType = tab.textContent.trim().toLowerCase();
-            const testContent = document.querySelector('.test-content');
-            
-            switch(viewType) {
-                case 'manual':
-                    testContent.querySelector('.test-steps').style.display = 'table';
-                    break;
-                case 'script':
-                    // Ici, vous pouvez ajouter la logique pour afficher le code
-                    break;
-                case 'variables':
-                    // Ici, vous pouvez ajouter la logique pour afficher les variables
-                    break;
-            }
-        });
-    });
-}
-
-function initializeStatusBarTabs() {
-    // Gestion des onglets de la barre de statut
-    const statusTabs = document.querySelectorAll('.status-bar .tab');
-    statusTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            statusTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-        });
-    });
-}
-
-function initializeToolButtons() {
-    // Gestion des boutons de la barre d'outils
-    const toolButtons = document.querySelectorAll('.tool-btn');
-    toolButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Ajouter ici la logique pour chaque bouton
-            console.log('Tool button clicked:', button.innerHTML);
-        });
-    });
-}
-
-function handleFileClick(filePath) {
-    console.log("Clic sur le fichier:", filePath);
-    const fileExtension = filePath.split('.').pop().toLowerCase();
-    
-    if (fileExtension === 'glbl') {
-        // Traitement spécial pour les fichiers .glbl
-        console.log("Ouverture d'un fichier .glbl");
-        // Ajouter ici le code pour ouvrir les fichiers .glbl
-    } else {
-        // Traitement normal pour les autres fichiers
-        fetch('/open_file', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ filePath: filePath })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log("Fichier ouvert avec succès");
-            } else {
-                console.error("Erreur lors de l'ouverture du fichier");
-            }
-        })
-        .catch(error => console.error('Erreur:', error));
-    }
-}
-
-function getFileIcon(fileName) {
-    if (fileName.endsWith('.py')) return 'fab fa-python';
-    if (fileName.endsWith('.xml')) return 'fas fa-file-code';
-    if (fileName.endsWith('.glbl')) return 'fas fa-globe';
-    return 'fas fa-file';
-}
