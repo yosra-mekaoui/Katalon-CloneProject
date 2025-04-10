@@ -70,6 +70,10 @@
 
     <div class="main-container">
         <div class="sidebar">
+            <div class="search-container">
+                <input type="text" id="fileSearch" class="file-search" placeholder="Rechercher des fichiers..." />
+                <i class="fas fa-search search-icon"></i>
+            </div>
             <div id="projectTree" class="tree-view">
                 <ul class="root-list">
                     <li class="folder">
@@ -142,8 +146,20 @@
 <div class="resizer"></div>
         <div class="content">
             <div class="test-editor">
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 <div class="tab-bar">
                     <ul class="tabs-list"></ul>
+=======
+
+                <div class="tab-container">
+                    <ul class="tabs-bar"></ul>
+>>>>>>> Stashed changes
+=======
+
+                <div class="tab-container">
+                    <ul class="tabs-bar"></ul>
+>>>>>>> Stashed changes
                 </div>
                 <div class="editor-toolbar">
                     <button class="action-btn"><i class="fas fa-plus"></i> Add</button>
@@ -153,6 +169,8 @@
                 </div>
                 <div class="test-content">
                     <table class="test-steps">
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
                         <thead>
                             <tr>
                                 <th>Step</th>
@@ -206,12 +224,64 @@
                             </tr>
                         </tbody>
                     </table>
+=======
+=======
+>>>>>>> Stashed changes
+    <thead>
+        <tr>
+            <th>Step</th>
+            <th>Action Item</th>
+            <th>Action</th>
+            <th>Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+</table>
+
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
                 </div>
 
                 <div class="view-tabs">
                     <button class="view-tab active" data-view="manual"><i class="fas fa-table"></i> Manual</button>
                     <button class="view-tab" data-view="script"><i class="fas fa-code"></i> Script</button>
                     <button class="view-tab" data-view="variables"><i class="fas fa-list"></i> Variables</button>
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+                    <button class="view-tab" data-view="variables"><i class="fas fa-code"></i> Variables (Script mode)</button>
+
+>>>>>>> Stashed changes
+=======
+                    <button class="view-tab" data-view="variables"><i class="fas fa-code"></i> Variables (Script mode)</button>
+
+>>>>>>> Stashed changes
                 </div>
             </div>
         </div>
@@ -220,9 +290,9 @@
     <footer class="status-bar">
         <div class="tabs">
             <span class="tab active">Problems</span>
-            <span class="tab">Event Log</span>
-            <span class="tab">Console</span>
-            <span class="tab">Log Viewer</span>
+            <span class="tabfooter">Event Log</span>
+            <span class="tabfooter">Console</span>
+            <span class="tabfooter">Log Viewer</span>
         </div>
     </footer>
 
@@ -235,7 +305,13 @@
     <!-- Original Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/project-handler.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/python-converter.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/python_handler.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/monaco-handler.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tab-handler.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme-handler.js') }}"></script>
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <script src="{{ url_for('static', filename='js/python_handler.js') }}"></script>
     <script src="{{ url_for('static', filename='js/tab-handler.js') }}"></script>
     <script>
@@ -246,5 +322,13 @@
     </script>
     <!-- Monaco Editor Integration -->
     <script src="{{ url_for('static', filename='js/monaco-handler.js') }}"></script>
+=======
+    <script src="{{ url_for('static', filename='js/search-handler.js') }}"></script>
+
+>>>>>>> Stashed changes
+=======
+    <script src="{{ url_for('static', filename='js/search-handler.js') }}"></script>
+
+>>>>>>> Stashed changes
 </body>
 </html>

@@ -158,6 +158,128 @@ document.addEventListener('DOMContentLoaded', function() {
     searchInput.addEventListener('input', performSearch);
     searchButton.addEventListener('click', performSearch);
 
+    // Logique de recherche dynamique avec logs
+    const fileSearch = document.getElementById('fileSearch');
+    console.log('Input de recherche trouvé:', fileSearch);
+    
+    function filterTreeItems(searchTerm) {
+        console.log('Recherche démarrée avec le terme:', searchTerm);
+        
+        // Sélectionner tous les éléments de l'arborescence
+        const allItems = document.querySelectorAll('#projectTree li');
+        console.log('Nombre total d\'éléments trouvés:', allItems.length);
+        
+        // Si la recherche est vide, tout afficher
+        if (!searchTerm) {
+            console.log('Terme de recherche vide, réinitialisation de l\'affichage');
+            allItems.forEach(item => {
+                item.style.display = '';
+                const content = item.querySelector('.folder-content, .file-content');
+                if (content) {
+                    content.style.display = '';
+                }
+            });
+            return;
+        }
+        
+        const searchTermLower = searchTerm.toLowerCase();
+        console.log('Terme de recherche normalisé:', searchTermLower);
+        
+        // Parcourir tous les éléments
+        allItems.forEach((item, index) => {
+            // Chercher le texte dans le span
+            const span = item.querySelector('span');
+            if (!span) {
+                console.log(`Élément ${index} n'a pas de span`);
+                return;
+            }
+            
+            const itemText = span.textContent;
+            console.log(`Élément ${index} - Texte:`, itemText);
+            
+            const isMatch = itemText.toLowerCase().includes(searchTermLower);
+            console.log(`Élément ${index} - Correspond:`, isMatch);
+            
+            // Gérer l'affichage de l'élément
+            if (isMatch) {
+                console.log(`Affichage de l'élément correspondant:`, itemText);
+                item.style.display = '';
+                
+                // Si c'est un dossier, l'ouvrir
+                const folderContent = item.querySelector('.folder-content');
+                if (folderContent) {
+                    console.log('Ouverture du dossier:', itemText);
+                    const subfolder = item.querySelector('.subfolder-content');
+                    if (subfolder) {
+                        subfolder.style.display = '';
+                        subfolder.classList.remove('hidden');
+                    }
+                    
+                    const arrow = folderContent.querySelector('.folder-arrow');
+                    if (arrow) {
+                        arrow.classList.remove('fa-chevron-right');
+                        arrow.classList.add('fa-chevron-down');
+                    }
+                }
+                
+                // Remonter l'arborescence pour afficher les parents
+                let parent = item.parentElement;
+                while (parent && parent !== document) {
+                    if (parent.tagName.toLowerCase() === 'li') {
+                        console.log('Affichage du parent:', parent.querySelector('span')?.textContent);
+                        parent.style.display = '';
+                        const parentFolder = parent.querySelector('.folder-content');
+                        if (parentFolder) {
+                            const parentSubfolder = parent.querySelector('.subfolder-content');
+                            if (parentSubfolder) {
+                                parentSubfolder.style.display = '';
+                                parentSubfolder.classList.remove('hidden');
+                            }
+                            const parentArrow = parentFolder.querySelector('.folder-arrow');
+                            if (parentArrow) {
+                                parentArrow.classList.remove('fa-chevron-right');
+                                parentArrow.classList.add('fa-chevron-down');
+                            }
+                        }
+                    }
+                    parent = parent.parentElement;
+                }
+            } else {
+                console.log(`Masquage de l'élément non correspondant:`, itemText);
+                item.style.display = 'none';
+            }
+        });
+    }
+    
+    // Gestionnaire d'événement pour la recherche en temps réel
+    let searchTimeout = null;
+    fileSearch.addEventListener('input', function(e) {
+        console.log('Événement input détecté:', e.target.value);
+        
+        // Annuler le timeout précédent
+        if (searchTimeout) {
+            console.log('Annulation du timeout précédent');
+            clearTimeout(searchTimeout);
+        }
+        
+        // Définir un nouveau timeout pour la recherche
+        searchTimeout = setTimeout(() => {
+            const searchTerm = e.target.value.trim();
+            console.log('Exécution de la recherche avec:', searchTerm);
+            filterTreeItems(searchTerm);
+        }, 50); // Réduit à 50ms pour une réponse plus rapide
+    });
+    
+    // Réinitialiser la recherche en cliquant sur l'icône
+    const searchIcon = document.querySelector('.search-icon');
+    if (searchIcon) {
+        searchIcon.addEventListener('click', function() {
+            console.log('Clic sur l\'icône de recherche - Réinitialisation');
+            fileSearch.value = '';
+            filterTreeItems('');
+        });
+    }
+
     // Gestion des lignes de table
     const tableRows = document.querySelectorAll('table tbody tr');
     tableRows.forEach(row => {
