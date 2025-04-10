@@ -169,10 +169,18 @@ body {
     font-size: 14px;
 }
 
+/* Base styles pour l'arborescence */
 .root-list {
     list-style: none;
     padding: 0;
     margin: 0;
+}
+
+/* Indentation simple pour tous les niveaux */
+.root-list ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 25px; /* Indentation plus prononcée pour une meilleure visibilité */
 }
 
 .folder {
@@ -180,17 +188,32 @@ body {
     user-select: none;
 }
 
-.folder-content {
+.folder > div,
+.file {
     display: flex;
     align-items: center;
     padding: 4px 8px;
     cursor: pointer;
     border-radius: 4px;
-    transition: background-color 0.2s;
 }
 
+<<<<<<< Updated upstream
 .folder-content:hover {
     background-color: #e9ecef;
+=======
+.folder > div:hover,
+.file:hover {
+    background-color: var(--sidebar-hover);
+>>>>>>> Stashed changes
+}
+
+/* Style pour les icônes */
+.folder i,
+.file i {
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+    color: var(--nav-text);
 }
 
 .folder-arrow {
@@ -321,7 +344,11 @@ body {
 .sidebar {
     background-color: #f8f9fa;
     border-right: 1px solid #dee2e6;
+<<<<<<< Updated upstream
     padding: 10px 0;
+=======
+    padding: 1px 0;
+>>>>>>> Stashed changes
     height: 100%;
     overflow-y: auto;
 }
@@ -341,17 +368,8 @@ body {
     margin: 2px 0;
 }
 
-.folder-content {
-    display: flex;
-    align-items: center;
-    padding: 4px 8px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-}
-
 .folder-content:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: #e9ecef;
 }
 
 .folder-arrow {
@@ -370,9 +388,11 @@ body {
     transform: rotate(90deg);
 }
 
-.folder i:not(.folder-arrow), .file i {
-    width: 20px;
+.folder i:not(.folder-arrow) {
+    margin-right: 8px;
+    width: 16px;
     text-align: center;
+<<<<<<< Updated upstream
     color: var(--icon-color);
 }
 
@@ -382,6 +402,8 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+=======
+>>>>>>> Stashed changes
 }
 
 .subfolder-content {
@@ -398,14 +420,20 @@ body {
 .file {
     display: flex;
     align-items: center;
-    padding: 4px 8px 4px 28px;
+    padding: 4px 8px;
     cursor: pointer;
     border-radius: 4px;
-    transition: background-color 0.2s;
+    margin: 2px 0;
 }
 
 .file:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: #e9ecef;
+}
+
+.file i {
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
 }
 
 /* Icônes spécifiques avec leurs couleurs */
@@ -533,7 +561,7 @@ body {
 /* Zone de contenu */
 .content {
     flex: 1;
-    padding:20px 0px 0px 10px;
+    padding:0px 0px 0px 5px;
     overflow-y: auto;
 }
 
@@ -574,13 +602,21 @@ body {
 }
 
 /* Zone de contenu du test */
+
+
 .test-content {
     flex: 1;
     overflow: auto;
+<<<<<<< Updated upstream
     padding: 10px;
     background-color: var(--nav-bg);
 }
 
+=======
+    padding: 1px;
+    background-color: var(--nav-bg);
+}
+>>>>>>> Stashed changes
 .test-content .selected {
     flex: 1;
     overflow: auto;
@@ -625,6 +661,12 @@ body {
 .view-tabs {
     display: flex;
     padding: 4px 8px;
+    margin:30px;
+    margin-top: 3px;
+    margin-left: 0px;
+    margin-right: 0px;
+
+
     background-color: var(--nav-bg);
     border-top: 1px solid var(--border-color);
 }
@@ -655,15 +697,25 @@ body {
 
 * Barre de statut */
 .status-bar {
+<<<<<<< Updated upstream
 position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
         text-align: center;
 
+=======
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+>>>>>>> Stashed changes
     border-top: 1px solid var(--border-color);
-    padding: 4px 8px;
     background-color: var(--nav-bg);
+    z-index: 1000; /* Assure que la barre reste au-dessus d'autres éléments */
+    box-sizing: border-box; /* Empêche le border d'affecter la hauteur */
+    min-height: 20px; /* Optionnel : Assure une hauteur minimale */
 }
 
 
@@ -671,8 +723,12 @@ position: fixed;
     display: flex;
     gap: 15px;
 }
+footer {
+    display: block;
+    unicode-bidi: isolate;
+}
 
-.tab {
+.tabfooter {
     cursor: pointer;
     padding: 4px 8px;
 }
@@ -870,7 +926,11 @@ color: var(--text-color);}
     background-color: var(--dropdown-bg);
     border: 1px solid var(--border-color);
     border-radius: 4px;
+<<<<<<< Updated upstream
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+=======
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+>>>>>>> Stashed changes
     min-width: 180px;
     z-index: 1000;
     display: none;
@@ -967,6 +1027,10 @@ color: var(--text-color);}
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     padding: 8px 0;
     min-width: 180px;
+<<<<<<< Updated upstream
+=======
+    z-index: 1001;
+>>>>>>> Stashed changes
 }
 
 .theme-submenu:hover .submenu {
@@ -1095,6 +1159,7 @@ color: var(--text-color);}
     text-align: center;
 }
 
+<<<<<<< Updated upstream
 /* Styles pour la barre d'onglets */
 .tab-bar {
     background-color: var(--nav-bg);
@@ -1149,6 +1214,8 @@ color: var(--text-color);}
     background-color: var(--sidebar-hover);
 }
 
+=======
+>>>>>>> Stashed changes
 /* Styles pour le tableau manuel */
 .manual-table {
     width: 100%;
@@ -1271,6 +1338,7 @@ color: var(--text-color);}
     box-shadow: 0 0 0 2px var(--primary-color-light);
 }
 
+<<<<<<< Updated upstream
 /* Styles pour les éléments de fichier */
 .file-item {
     display: flex;
@@ -1293,12 +1361,57 @@ color: var(--text-color);}
 }
 
 .file-item span {
+=======
+/* Styles pour le gestionnaire d'onglets */
+.tab-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.tabs-bar {
+    display: flex;
+    background-color: var(--nav-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 10px;
+    height: 35px;
+    margin-bottom: 0px;
+
+    align-items: center;
+    overflow-x: auto;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    height: 32px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    margin-right: 4px;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+    position: relative;
+    color: var(--text-color);
+    min-width: 100px;
+    max-width: 200px;
+}
+
+.tab.active {
+    background-color: var(--sidebar-hover);
+    border-bottom: 2px solid var(--nav-text);
+}
+
+.tab-title {
+>>>>>>> Stashed changes
     flex: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+<<<<<<< Updated upstream
 /* Fix pour les erreurs CSS précédentes */
 .folder-header {
     display: flex;
@@ -1317,4 +1430,65 @@ color: var(--text-color);}
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+=======
+.tab-close {
+    margin-left: 8px;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.tab-close:hover {
+    background-color: var(--dropdown-hover);
+}
+
+.tab-content {
+    flex: 1;
+    position: relative;
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Styles pour la barre de recherche */
+.search-container {
+    padding: 1px;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+
+.file-search {
+    width: 100%;
+    padding: 6px 30px 6px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.file-search:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.search-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-color-secondary);
+    font-size: 14px;
+}
+
+/* Style pour les éléments filtrés */
+.hidden-search {
+    display: none !important;
+>>>>>>> Stashed changes
 }

@@ -136,6 +136,7 @@ async function handleFileSelect(event) {
                     });
                 } else if (entry.kind === 'directory') {
                     await readDirectory(entry, entryPath);
+
                 }
             }
         }
@@ -856,22 +857,37 @@ function updateProjectTree(project) {
 function shouldShowFile(fileName, folderName, isInSubfolder = false) {
     const config = FOLDER_CONFIG[folderName];
     if (!config) return false;
+<<<<<<< Updated upstream
     
     // Pour les dossiers qui montrent tout le contenu
     if (config.showAllContent) return true;
     
+=======
+
+    // Pour les dossiers qui montrent tout le contenu
+    if (config.showAllContent) return true;
+
+>>>>>>> Stashed changes
     // Cas spécial pour Profiles : accepter tous les fichiers .glbl
     if (folderName === 'Profiles' && fileName.toLowerCase().endsWith('.glbl')) {
         return true;
     }
+<<<<<<< Updated upstream
     
     // Vérifier les extensions
     if (!config.extensions) return true;
     return config.extensions.some(ext => 
+=======
+
+    // Vérifier les extensions
+    if (!config.extensions) return true;
+    return config.extensions.some(ext =>
+>>>>>>> Stashed changes
         fileName.toLowerCase().endsWith(ext.toLowerCase())
     );
 }
 
+<<<<<<< Updated upstream
 // Fonction pour créer un élément de fichier
 function createFileElement(file, isInSubfolder = false) {
     const fileItem = document.createElement('li');
@@ -929,6 +945,8 @@ async function handleFileClick(filePath) {
     }
 }
 
+=======
+>>>>>>> Stashed changes
 // Ajouter les styles CSS nécessaires
 const style = document.createElement('style');
 style.textContent = `
