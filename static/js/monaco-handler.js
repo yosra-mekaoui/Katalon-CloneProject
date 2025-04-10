@@ -4,6 +4,10 @@ class MonacoEditorHandler {
         this.editor = null;
         this.pythonDiagnostics = null;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+        this.currentContent = '';
+>>>>>>> Stashed changes
 =======
         this.currentContent = '';
 >>>>>>> Stashed changes
@@ -35,14 +39,20 @@ class MonacoEditorHandler {
         scriptContent.parentNode.replaceChild(container, scriptContent);
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         this.editor = monaco.editor.create(container, {
             value: scriptContent.value || '',
 =======
+=======
+>>>>>>> Stashed changes
         // Préserver le contenu initial
         this.currentContent = scriptContent.value || '';
 
         this.editor = monaco.editor.create(container, {
             value: this.currentContent,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             language: 'python',
             theme: 'vs-dark',
@@ -63,6 +73,7 @@ class MonacoEditorHandler {
         // Set up Python syntax validation
         this.setupPythonValidation();
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         // Handle content changes
         this.editor.onDidChangeModelContent(() => {
@@ -135,6 +146,8 @@ class MonacoEditorHandler {
 
     setContent(content) {
 =======
+=======
+>>>>>>> Stashed changes
         // Listen for content changes
         this.editor.onDidChangeModelContent(() => {
             this.currentContent = this.editor.getValue();
@@ -154,12 +167,16 @@ class MonacoEditorHandler {
 
     setContent(content) {
         this.currentContent = content;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         if (this.editor) {
             this.editor.setValue(content);
         }
     }
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     dispose() {
         if (this.editor) {
@@ -171,6 +188,8 @@ class MonacoEditorHandler {
             this.pythonDiagnostics = null;
         }
 =======
+=======
+>>>>>>> Stashed changes
     setupPythonValidation() {
         if (!this.editor) return;
 
@@ -235,6 +254,9 @@ class MonacoEditorHandler {
             }
         });
         document.dispatchEvent(event);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 }

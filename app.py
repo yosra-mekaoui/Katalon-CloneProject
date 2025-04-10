@@ -2,9 +2,12 @@ from flask import Flask, render_template, jsonify, request
 import os
 import json
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import shutil
 import re
 =======
+=======
+>>>>>>> Stashed changes
 import logging
 import re
 import ast
@@ -19,6 +22,9 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger(__name__)
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 app = Flask(__name__)
@@ -84,6 +90,7 @@ FOLDER_CONFIG = {
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 # Fonctions utilitaires pour la conversion
 def parse_script_to_json(code):
     steps = []
@@ -136,6 +143,8 @@ def json_to_script(json_data):
     return "\n".join(script_lines)
 
 =======
+=======
+>>>>>>> Stashed changes
 
 # Classe pour parser un fichier Python
 class PythonFileParser:
@@ -273,6 +282,9 @@ class PythonFileParser:
 
 
 # Route pour la page d'accueil
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 @app.route('/')
 def index():
@@ -447,6 +459,7 @@ def save_file():
             'message': 'File saved successfully'
         })
     except Exception as e:
+<<<<<<< Updated upstream
         return jsonify({
             'success': False,
             'message': str(e)
@@ -621,6 +634,8 @@ def save_file():
             'message': 'File saved successfully'
         })
     except Exception as e:
+=======
+>>>>>>> Stashed changes
         return jsonify({
             'success': False,
             'message': str(e)
@@ -628,7 +643,11 @@ def save_file():
 
 if __name__ == '__main__':
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     app.run(debug=True, port=5001)
+=======
+    app.run(debug=True, port=5008)
+>>>>>>> Stashed changes
 =======
     app.run(debug=True, port=5008)
 >>>>>>> Stashed changes

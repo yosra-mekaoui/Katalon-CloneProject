@@ -198,13 +198,25 @@ body {
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 .folder-content:hover {
     background-color: #e9ecef;
 =======
+=======
+>>>>>>> Stashed changes
 .folder > div:hover,
 .file:hover {
     background-color: var(--sidebar-hover);
 >>>>>>> Stashed changes
+}
+
+/* Style pour les icônes */
+.folder i,
+.file i {
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+    color: var(--nav-text);
 }
 
 /* Style pour les icônes */
@@ -345,7 +357,11 @@ body {
     background-color: #f8f9fa;
     border-right: 1px solid #dee2e6;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     padding: 10px 0;
+=======
+    padding: 1px 0;
+>>>>>>> Stashed changes
 =======
     padding: 1px 0;
 >>>>>>> Stashed changes
@@ -393,6 +409,7 @@ body {
     width: 16px;
     text-align: center;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     color: var(--icon-color);
 }
 
@@ -402,6 +419,8 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 }
@@ -608,10 +627,16 @@ body {
     flex: 1;
     overflow: auto;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     padding: 10px;
     background-color: var(--nav-bg);
 }
 
+=======
+    padding: 1px;
+    background-color: var(--nav-bg);
+}
+>>>>>>> Stashed changes
 =======
     padding: 1px;
     background-color: var(--nav-bg);
@@ -698,6 +723,7 @@ body {
 * Barre de statut */
 .status-bar {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 position: fixed;
     bottom: 0;
     left: 0;
@@ -705,11 +731,16 @@ position: fixed;
         text-align: center;
 
 =======
+=======
+>>>>>>> Stashed changes
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     text-align: center;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     border-top: 1px solid var(--border-color);
     background-color: var(--nav-bg);
@@ -927,7 +958,11 @@ color: var(--text-color);}
     border: 1px solid var(--border-color);
     border-radius: 4px;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+=======
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+>>>>>>> Stashed changes
 =======
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 >>>>>>> Stashed changes
@@ -1028,6 +1063,10 @@ color: var(--text-color);}
     padding: 8px 0;
     min-width: 180px;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    z-index: 1001;
+>>>>>>> Stashed changes
 =======
     z-index: 1001;
 >>>>>>> Stashed changes
@@ -1160,6 +1199,7 @@ color: var(--text-color);}
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /* Styles pour la barre d'onglets */
 .tab-bar {
     background-color: var(--nav-bg);
@@ -1214,6 +1254,8 @@ color: var(--text-color);}
     background-color: var(--sidebar-hover);
 }
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 /* Styles pour le tableau manuel */
@@ -1339,6 +1381,7 @@ color: var(--text-color);}
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /* Styles pour les éléments de fichier */
 .file-item {
     display: flex;
@@ -1362,6 +1405,8 @@ color: var(--text-color);}
 
 .file-item span {
 =======
+=======
+>>>>>>> Stashed changes
 /* Styles pour le gestionnaire d'onglets */
 .tab-container {
     display: flex;
@@ -1404,6 +1449,9 @@ color: var(--text-color);}
 }
 
 .tab-title {
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     flex: 1;
     white-space: nowrap;
@@ -1411,6 +1459,7 @@ color: var(--text-color);}
     text-overflow: ellipsis;
 }
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 /* Fix pour les erreurs CSS précédentes */
 .folder-header {
@@ -1431,6 +1480,8 @@ color: var(--text-color);}
     overflow: hidden;
     text-overflow: ellipsis;
 =======
+=======
+>>>>>>> Stashed changes
 .tab-close {
     margin-left: 8px;
     font-size: 16px;
@@ -1490,5 +1541,8 @@ color: var(--text-color);}
 /* Style pour les éléments filtrés */
 .hidden-search {
     display: none !important;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }

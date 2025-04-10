@@ -4,6 +4,7 @@ class PythonFileHandler {
         this.currentFilePath = null;
         this.currentContent = null;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         this.initializeEventListeners();
     }
 
@@ -14,6 +15,8 @@ class PythonFileHandler {
             if (fileItem && fileItem.dataset.path && fileItem.dataset.path.endsWith('.py')) {
                 this.loadPythonFile(fileItem.dataset.path);
 =======
+=======
+>>>>>>> Stashed changes
         this.lastSavedContent = null;
         this.autoSaveTimeout = null;
         this.debug = true;
@@ -55,6 +58,9 @@ class PythonFileHandler {
                 }
                 
                 this.loadPythonFile(filePath);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             }
         });
@@ -63,8 +69,14 @@ class PythonFileHandler {
         document.querySelectorAll('.view-tab').forEach(tab => {
             tab.addEventListener('click', (e) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 if (this.currentContent) {
                     const viewType = e.target.getAttribute('data-view');
+=======
+                const viewType = e.target.getAttribute('data-view');
+                this.log('View tab clicked:', viewType);
+                if (this.currentContent) {
+>>>>>>> Stashed changes
 =======
                 const viewType = e.target.getAttribute('data-view');
                 this.log('View tab clicked:', viewType);
@@ -75,6 +87,7 @@ class PythonFileHandler {
             });
         });
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         // Gestionnaire de sauvegarde
         document.addEventListener('click', (e) => {
@@ -88,6 +101,8 @@ class PythonFileHandler {
         try {
             const response = await fetch('/read_py_file', {
 =======
+=======
+>>>>>>> Stashed changes
         // Écouter les changements dans l'éditeur Monaco
         document.addEventListener('monacoContentChanged', (e) => {
             this.log('Monaco content changed');
@@ -118,11 +133,15 @@ class PythonFileHandler {
         
         try {
             const response = await fetch('/open_file', {
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
                 body: JSON.stringify({ path: filePath })
             });
@@ -132,6 +151,8 @@ class PythonFileHandler {
                 this.currentFilePath = filePath;
                 this.currentContent = data.content;
 =======
+=======
+>>>>>>> Stashed changes
                 body: JSON.stringify({ 
                     path: filePath.replace(/\\/g, '/'),  // Normaliser les backslashes en slashes
                     project_path: this.currentProjectPath.replace(/\\/g, '/')  // Normaliser les backslashes en slashes
@@ -152,6 +173,9 @@ class PythonFileHandler {
                 this.lastSavedContent = data.content;
                 this.parsedContent = data.parsed_content || [];
                 this.log('Parsed content:', this.parsedContent);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                 this.displayContent();
             } else {
@@ -164,6 +188,10 @@ class PythonFileHandler {
 
     displayContent() {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+        this.log('Displaying content');
+>>>>>>> Stashed changes
 =======
         this.log('Displaying content');
 >>>>>>> Stashed changes
@@ -174,6 +202,10 @@ class PythonFileHandler {
 
     switchView(viewType) {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+        this.log('Switching view to:', viewType);
+>>>>>>> Stashed changes
 =======
         this.log('Switching view to:', viewType);
 >>>>>>> Stashed changes
@@ -185,6 +217,7 @@ class PythonFileHandler {
     }
 
     displayScriptView() {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         const contentArea = document.querySelector('.test-content');
         contentArea.innerHTML = `
@@ -198,6 +231,8 @@ class PythonFileHandler {
         const contentArea = document.querySelector('.test-content');
         const steps = this.parseScriptToSteps(this.currentContent);
 =======
+=======
+>>>>>>> Stashed changes
         this.log('Displaying script view');
         const contentArea = document.querySelector('.test-content');
         
@@ -220,6 +255,9 @@ class PythonFileHandler {
         // Utiliser les étapes parsées si disponibles
         const steps = this.parsedContent || [];
         this.log('Steps to display:', steps);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         
         let tableHTML = `
@@ -240,6 +278,7 @@ class PythonFileHandler {
         steps.forEach((step, index) => {
             tableHTML += `
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 <tr>
                     <td>${index + 1} - ${step.action}</td>
                     <td>${step.object || ''}</td>
@@ -248,6 +287,8 @@ class PythonFileHandler {
                     <td></td>
                     <td>${step.description || ''}</td>
 =======
+=======
+>>>>>>> Stashed changes
                 <tr data-step="${index}">
                     <td>${index + 1}</td>
                     <td contenteditable="true">${step.actionItem || ''}</td>
@@ -255,11 +296,15 @@ class PythonFileHandler {
                     <td contenteditable="true">${step.input || ''}</td>
                     <td contenteditable="true">${step.output || ''}</td>
                     <td contenteditable="true">${step.description || ''}</td>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                 </tr>
             `;
         });
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         tableHTML += `
                 </tbody>
@@ -328,6 +373,8 @@ class PythonFileHandler {
         } else {
             // TODO: Implémenter la conversion du tableau en script Python
 =======
+=======
+>>>>>>> Stashed changes
         // Si aucune étape n'est présente, ajouter une ligne vide
         if (steps.length === 0) {
             tableHTML += `
@@ -413,13 +460,19 @@ class PythonFileHandler {
     async saveCurrentFile(viewType) {
         if (!this.currentFilePath) {
             this.log('No current file to save');
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             return;
         }
 
         try {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
             let content;
             if (viewType === 'script') {
                 this.log('Getting content from Monaco for save');
@@ -438,6 +491,9 @@ class PythonFileHandler {
             }
 
             this.log('Saving file:', this.currentFilePath);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             const response = await fetch('/save_py_file', {
                 method: 'POST',
@@ -445,6 +501,7 @@ class PythonFileHandler {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
                     path: this.currentFilePath,
                     content: content
@@ -455,6 +512,8 @@ class PythonFileHandler {
             if (data.success) {
                 console.log('File saved successfully');
 =======
+=======
+>>>>>>> Stashed changes
                     path: this.currentFilePath.replace(/\\/g, '/'),  // Normaliser les backslashes en slashes
                     content: content
                 })
@@ -465,6 +524,9 @@ class PythonFileHandler {
                 this.log('File saved successfully');
                 this.currentContent = content;
                 this.lastSavedContent = content;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             } else {
                 console.error('Error saving file:', data.message);
@@ -474,7 +536,10 @@ class PythonFileHandler {
         }
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 
     getStepsFromTable() {
         this.log('Getting steps from table');
@@ -498,6 +563,9 @@ class PythonFileHandler {
         
         return steps;
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 

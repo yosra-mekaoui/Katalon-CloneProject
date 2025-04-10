@@ -1,6 +1,7 @@
 class TabManager {
     constructor() {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         this.tabsList = document.querySelector('.tabs-list');
         this.activeTab = null;
         this.tabs = new Map(); // Store tab elements by file path
@@ -19,6 +20,8 @@ class TabManager {
             });
             document.dispatchEvent(contentEvent);
 =======
+=======
+>>>>>>> Stashed changes
         this.tabsBar = document.querySelector('.tabs-bar');
         this.activeTab = null;
         this.tabs = new Map();
@@ -34,11 +37,15 @@ class TabManager {
                 const fileName = fileItem.querySelector('span').textContent;
                 this.openTab(filePath, fileName);
             }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         });
     }
 
     createTabElement(filePath, fileName) {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         const tab = document.createElement('li');
         tab.className = 'tab-item';
@@ -86,6 +93,8 @@ class TabManager {
         }
     }
 =======
+=======
+>>>>>>> Stashed changes
         const tab = document.createElement('div');
         tab.className = 'tab';
         tab.dataset.path = filePath;
@@ -150,11 +159,15 @@ class TabManager {
     }
 }
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
     openTab(filePath, fileName) {
         if (!this.tabs.has(filePath)) {
             const tab = this.createTabElement(filePath, fileName);
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
             this.tabs.set(filePath, tab);
             this.tabsList.appendChild(tab);
@@ -168,6 +181,8 @@ class TabManager {
         }
         
 =======
+=======
+>>>>>>> Stashed changes
             this.tabsBar.appendChild(tab);
             this.tabs.set(filePath, tab);
         }
@@ -181,11 +196,15 @@ class TabManager {
         }
 
         // Activer le nouvel onglet
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         const tab = this.tabs.get(filePath);
         if (tab) {
             tab.classList.add('active');
             this.activeTab = tab;
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
             // Trigger an event that other components can listen to
             const event = new CustomEvent('tabActivated', {
@@ -194,12 +213,15 @@ class TabManager {
             document.dispatchEvent(event);
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
         }
     }
 
     closeTab(filePath) {
         const tab = this.tabs.get(filePath);
         if (tab) {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
             // If closing the active tab, activate another tab if available
             if (tab === this.activeTab) {
@@ -210,6 +232,8 @@ class TabManager {
                 if (nextTab) {
                     this.activateTab(nextTab[0]);
 =======
+=======
+>>>>>>> Stashed changes
             // Si c'est l'onglet actif, activer le suivant ou le précédent
             if (tab === this.activeTab) {
                 const tabArray = Array.from(this.tabs.keys());
@@ -219,11 +243,15 @@ class TabManager {
                 if (nextTab) {
                     this.activateTab(nextTab);
                     this.loadFile(nextTab); // ⚠️ Charger le fichier du nouvel onglet actif
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                 } else {
                     this.activeTab = null;
                 }
             }
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
             
             tab.remove();
@@ -238,6 +266,8 @@ class TabManager {
     }
 }
 =======
+=======
+>>>>>>> Stashed changes
 
             tab.remove();
             this.tabs.delete(filePath);
@@ -249,4 +279,7 @@ class TabManager {
 document.addEventListener('DOMContentLoaded', () => {
     window.tabManager = new TabManager();
 });
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
